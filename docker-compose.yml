@@ -1,0 +1,28 @@
+services:
+  web:
+    build: ./setB/app
+    image: shizashahid/mid-app:56348
+    ports:
+      - "8081:8000"
+    environment:
+      ROLLNO: "56348"
+      REDIS_HOST: "redis"
+    depends_on:
+      - redis
+    networks:
+      - exam-network
+
+  redis:
+    image: redis:alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+    networks:
+      - exam-network
+
+networks:
+  exam-network:
+    driver: bridge
+
+volumes:
+  redis-data:
